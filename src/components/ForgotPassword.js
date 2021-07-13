@@ -5,9 +5,9 @@ import { useAuth } from '../contexts/AuthContext'
 
 export default function ForgotPassword() {
 	const emailRef = useRef()
-	const passwordRef = useRef()
-	const { login } = useAuth()
+	const { resetPassword } = useAuth()
 	const [error, setError] = useState('')
+  const [message, setMessage] = useState("")
 	const [loading, setLoading] = useState(false)
   const history = useHistory()
 
@@ -17,10 +17,11 @@ export default function ForgotPassword() {
 		try {
 			setError('')
       setLoading(true)
-			// await login(emailRef.current.value, passwordRef.current.value)
+			await resetPassword(emailRef.current.value)
+      setMessage('Check your inbox for further instructions.')
       history.push("/")
 		} catch {
-			setError('Failed to sign in')
+			setError('Failed to reset password')
 		}
 	}
 
@@ -30,6 +31,7 @@ export default function ForgotPassword() {
 				<Card.Body>
 					<h2 className="text-center mb-4">Password Reset</h2>
 					{error && <Alert variant="danger">{error}</Alert>}
+          {message && <Alert variant="success">{message}</Alert>}
 					<Form onSubmit={handleSubmit}>
 						<Form.Group id="email">
 							<Form.Label>Email</Form.Label>

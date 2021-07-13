@@ -6,15 +6,15 @@ export default function PrivateRoute({
   component: Component,
   ...rest
 }) {
-  const { currentUser } = useAuth()
 
+  const { currentUser } = useAuth()
 
   return (
     <Route
       {...rest}
       render={props => {
-        currentUser ? <Component {...props} /> : <Redirect to="/login" />
+        return currentUser ? <Component {...props} /> : <Redirect to="/login" />
       }}
-    ></Route>
+    />
   )
 }
